@@ -1,17 +1,25 @@
-import React from 'react'
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useState } from 'react'
+import { Button, StyleSheet, Text, TextInput, View, TouchableWithoutFeedback, Keyboard } from 'react-native'
 
 import Card from '../components/Card'
 import Colors from '../constants/Colors'
 import Input from '../components/Input'
 
 const StartGameScreen = () => {
+
+    const [enteredValue, setEnteredValue] = useState('')
+
+    const numberInputHandler = (inputText) => {
+        setEnteredValue(inputText.replace(/[^0-9]/g, ''))
+    }
+
     return (
-        <View style={styles.screen}>
+       <TouchableWithoutFeedback onPress={()=> {Keyboard.dismiss()}}>
+            <View style={styles.screen}>
             <Text style={styles.title}>The Game Screen</Text>
             <Card style={styles.inputContainer}>
                 <Text>Select a number</Text>
-                <Input style={styles.input} blurOnSubmit autoCapitalize="none" autoCorrect={false} keyboardType="number-pad" maxLength={2} />
+                <Input style={styles.input} blurOnSubmit autoCapitalize="none" autoCorrect={false} keyboardType="number-pad" maxLength={2} onChangeText={numberInputHandler} value={enteredValue} />
                <View style={styles.ButtonContainer}>
                     <View style={styles.button}><Button title="Reset" onPress= {() => { console.log("hii");}} color={Colors.primary} /></View>
                     <View style={styles.button}><Button title="Confirm" color={Colors.accent} /></View>
@@ -19,6 +27,7 @@ const StartGameScreen = () => {
             </Card>
 
         </View>
+       </TouchableWithoutFeedback>
     )
 }
 
